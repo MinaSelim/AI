@@ -34,11 +34,11 @@ def calculateNumberOfSteps(startingPoint, endingPoint, precision):
 def addPointToArray(xStartingPoint, yStartingPoint, precision, point, grid):
    xdiff = point[0] - xStartingPoint 
    ydiff = point[1] - yStartingPoint
-   if point[0] > -73.55-0.002 and point[1]>45.53-0.002 :
+   if point[0] > -73.55-0.002 and point[1]<45.49+0.002 :
       print(1)
    x = math.floor(xdiff/precision)
    y = math.floor(ydiff/precision)
-   if x == 19 and y == 19:
+   if x == 19 and y == 0:
       print(2)
 
-   grid[x,y] +=  1
+   grid[y,x] +=  1
