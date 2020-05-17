@@ -1,0 +1,4 @@
+dependencies:
+numpy
+pyshp
+matplotlib
