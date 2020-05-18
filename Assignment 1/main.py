@@ -1,6 +1,7 @@
 import ShapeReader
 import PlotGui
 import numpy
+import Astar
 
 filename = "Shapes/crime_dt"
 xStartingPoint = -73.59
@@ -15,5 +16,12 @@ grid = ShapeReader.getIntensityGridFromFileName(filename, xStartingPoint,
 xEndingPoint, yStartingPoint, yEndingPoint, precision)
 
 threshold = numpy.percentile(grid, percentile)
+binaryGrid = Astar.createBinaryGrid(grid,threshold)
+print(binaryGrid)
+pos = [(0,0),(0,1)]
 
-PlotGui.plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold)
+path = Astar.aStar(binaryGrid,(0,2),(0,3))
+
+print(path)
+
+PlotGui.plotGraph(xStartingPoint, yStartingPoint, precision, binaryGrid , threshold)

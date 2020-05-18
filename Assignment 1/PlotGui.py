@@ -3,9 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 def plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold):
-  # print(grid)
-   binaryGrid = createBinaryGrid(grid, threshold)
-  # print(binaryGrid)
+
    rowSize = len(grid)
    colSize = len(grid[0])
    xEndingPoint = xStartingPoint + precision*rowSize
@@ -19,13 +17,4 @@ def plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold):
    plt.show()
 
 
-def createBinaryGrid(grid, threshold):
-   rowSize = len(grid)
-   colSize = len(grid[0])
-   binaryGrid = numpy.zeros((rowSize, colSize), dtype=int)
-   for i in range(0,rowSize):
-      for j in range(0,colSize):
-         if grid[i,j] >= threshold:
-            binaryGrid[i,j] = 1
-   return binaryGrid
 
