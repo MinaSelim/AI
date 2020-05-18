@@ -20,8 +20,16 @@ binaryGrid = Astar.createBinaryGrid(grid,threshold)
 print(binaryGrid)
 pos = [(0,0),(0,1)]
 
-path = Astar.aStar(binaryGrid,(0,2),(0,3))
+path = Astar.aStar(binaryGrid,(0,0),(0,1))
 
+pathXarr = []
+pathYarr = []
+
+for point in path :
+   pathXarr.append(point[0])
+   pathYarr.append(point[1])
+
+pathArr = (pathXarr, pathYarr)
 print(path)
 
-PlotGui.plotGraph(xStartingPoint, yStartingPoint, precision, binaryGrid , threshold)
+PlotGui.plotGraph(xStartingPoint, yStartingPoint, precision, binaryGrid , threshold, pathArr)

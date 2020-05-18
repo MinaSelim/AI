@@ -32,8 +32,8 @@ def aStar(binaryGrid, starIndex, endIndex):
          path = []
          node = currentNode
          while node != None:
-            path.append(node)
-            node = currentNode.parent
+            path.append(node.pos)
+            node = node.parent
          return path
       
       childNodes = []
@@ -43,7 +43,13 @@ def aStar(binaryGrid, starIndex, endIndex):
             continue
          
          childNode = AStarNode.Node(currentNode, childPosition)
-         childNode.g = currentNode.g + 1 if abs(movement[0])+abs(movement[1]) == 1 else currentNode.g + 1.5
+         if abs(movement[0])+abs(movement[1]) == 1:
+            childNode.g = currentNode.g + 1.5
+         elif positionHasDangerousAdjacant(childPosition, binaryGrid):
+            childNode.g = currentNode.g + 1.3
+         else:
+            childNode.g = currentNode.g + 1.0
+
          childNodes.append(childNode)
          
       for childNode in childNodes:
@@ -61,12 +67,14 @@ def aStar(binaryGrid, starIndex, endIndex):
 
          openList.append(childNode)
       
+def nodeIsTraverable(position, binaryGrid):
+   return binaryGrid[position[0],position[1]] == 0
 
+def nodeIsValid(position, binaryGrid):
+   return not(position[0] < 0 or position[1] < 0 or position[0] >= (len(binaryGrid)) or  position[1] >= (len(binaryGrid[0])))
 
 def positionIsValidAndTraversable(position, binaryGrid):
-   nodeIsValid = not(position[0] < 0 or position[1] < 0 or position[0] >= (len(binaryGrid)) or  position[1] >= (len(binaryGrid[0])))
-   nodeIsTraverable = (binaryGrid[position[0],position[1]]) == 0
-   return nodeIsValid and nodeIsTraverable
+   return nodeIsValid(position, binaryGrid) and nodeIsTraverable(position, binaryGrid)
 
 def createBinaryGrid(grid, threshold):
    rowSize = len(grid)
@@ -77,6 +85,15 @@ def createBinaryGrid(grid, threshold):
          if grid[i,j] >= threshold:
             binaryGrid[i,j] = 1
    return binaryGrid
+
+def positionHasDangerousAdjacant(position, binaryGrid):
+   possibleAdjacentMoves = [(0,1),(1,0),(0,-1),(-1,0)]
+   for move in possibleAdjacentMoves:
+      adjacentNodePosition = (position[0]+move[0], position[1]+move[1])
+      if nodeIsValid(adjacentNodePosition,binaryGrid) and not(nodeIsTraverable(adjacentNodePosition,binaryGrid)):
+         return True
+                     
+   return False  
 
 def manhattanDistance(position, endIndex):
    return abs(position[0] - endIndex[0]) + abs(position[1] - endIndex[1])
