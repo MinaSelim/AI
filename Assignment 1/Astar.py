@@ -43,7 +43,7 @@ def aStar(binaryGrid, starIndex, endIndex):
             continue
          
          childNode = AStarNode.Node(currentNode, childPosition)
-         if abs(movement[0])+abs(movement[1]) == 1:
+         if abs(movement[0])+abs(movement[1]) == 2:
             childNode.g = currentNode.g + 1.5
          elif positionHasDangerousAdjacant(childPosition, binaryGrid):
             childNode.g = currentNode.g + 1.3
@@ -53,22 +53,31 @@ def aStar(binaryGrid, starIndex, endIndex):
          childNodes.append(childNode)
          
       for childNode in childNodes:
+         continueLoop = False
 
          for closedNode in closedList:
             if childNode.pos == closedNode.pos:
-               continue
+               continueLoop = True
+               break
+         
+         if continueLoop:
+            continue
          
          childNode.h = euclidianDistance(childNode.pos, endIndex)
          childNode.f = childNode.g + childNode.h
 
          for openNode in openList:
             if childNode.pos == openNode.pos and childNode.g > openNode.g:
-               continue
+               continueLoop = True
+               break
+         
+         if continueLoop:
+            continue
 
          openList.append(childNode)
       
 def nodeIsTraverable(position, binaryGrid):
-   return binaryGrid[position[0],position[1]] == 0
+   return binaryGrid[position[1],position[0]] == 0
 
 def nodeIsValid(position, binaryGrid):
    return not(position[0] < 0 or position[1] < 0 or position[0] >= (len(binaryGrid)) or  position[1] >= (len(binaryGrid[0])))
@@ -100,4 +109,4 @@ def manhattanDistance(position, endIndex):
 
 
 def euclidianDistance(position, endIndex):
-   return numpy.sqrt((position[0] - endIndex[0])**2 + (position[1] - endIndex[1])**2)
+   return numpy.sqrt((position[0] - endIndex[0])**2 + (position[1] - endIndex[1])**2) + abs(abs(position[0] - endIndex[0]) - abs(position[1] - endIndex[1])/2)

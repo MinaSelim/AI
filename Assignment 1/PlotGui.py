@@ -13,7 +13,7 @@ def plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold, pathAr
    text = "average: " + str(numpy.average(grid))+", std: " +str(numpy.std(grid))
    plt.text(-2,-2,text) 
    subplt = plt.subplot()
-   subplt.plot((0,100),(0,100))
+   subplt.plot((pathArr[0]),pathArr[1])
 
    extent = [xStartingPoint,xEndingPoint, yStartingPoint, yEndingPoint]
    plt.imshow(grid, origin='lower', extent=extent)

@@ -20,14 +20,14 @@ binaryGrid = Astar.createBinaryGrid(grid,threshold)
 print(binaryGrid)
 pos = [(0,0),(0,1)]
 
-path = Astar.aStar(binaryGrid,(0,0),(0,1))
+path = Astar.aStar(binaryGrid,(0,0),(19,0))
 
 pathXarr = []
 pathYarr = []
 
 for point in path :
-   pathXarr.append(point[0])
-   pathYarr.append(point[1])
+   pathXarr.append(point[0]+0.5)
+   pathYarr.append(point[1]+0.5)
 
 pathArr = (pathXarr, pathYarr)
 print(path)
