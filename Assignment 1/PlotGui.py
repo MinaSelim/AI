@@ -2,16 +2,21 @@ import numpy
 import matplotlib
 import matplotlib.pyplot as plt
 
-def plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold, pathArr):
+def plotGraph(xStartingPoint, yStartingPoint, precision, grid, threshold, pathArr,dataGrid):
 
    rowSize = len(grid)
    colSize = len(grid[0])
    xEndingPoint = xStartingPoint + precision*rowSize
    yEndingPoint = yStartingPoint + precision*colSize
 
+   textStr = "average: " + str(numpy.average(dataGrid))+",\n std: " +str(numpy.std(dataGrid)) + ",\n threshold: "+ str(threshold)
+   ax = plt.subplot()
+   props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+   ax.text(0.05, 1.13, textStr, transform=ax.transAxes, fontsize=12,
+        verticalalignment='top', bbox=props)
+
    pathArr = getPlotLines(xStartingPoint,yStartingPoint,precision,pathArr)
-   text = "average: " + str(numpy.average(grid))+", std: " +str(numpy.std(grid))
-   plt.text(-2,-2,text) 
+ 
    subplt = plt.subplot()
    subplt.plot((pathArr[0]),pathArr[1])
 

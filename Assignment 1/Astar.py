@@ -1,5 +1,6 @@
 import AStarNode
 import numpy
+from datetime import datetime
    
 
 def aStar(binaryGrid, starIndex, endIndex):
@@ -11,8 +12,10 @@ def aStar(binaryGrid, starIndex, endIndex):
    possibleMoves = [(0,1),(1,0),(0,-1),(-1,0),(1,1),(-1,-1),(1,-1),(-1,1)]
 
    openList.append(startNode)
+   startTime = datetime.now()
+   currentTime = datetime.now()
 
-   while len(openList) > 0:
+   while len(openList) > 0 and (currentTime - startTime).total_seconds() < 10:
 
       currentNode = openList[0]
       currentNodeIndex = 0
@@ -75,6 +78,7 @@ def aStar(binaryGrid, starIndex, endIndex):
             continue
 
          openList.append(childNode)
+      currentTime = datetime.now()
       
 def nodeIsTraverable(position, binaryGrid):
    return binaryGrid[position[1],position[0]] == 0
