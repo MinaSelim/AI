@@ -12,11 +12,6 @@ def outputModelToFile(filename, vocabDict, categDict, smoothingValue):
     showSize = Utility.countNumOfWordsInDict(categDict["show_hn"])
     askSize = Utility.countNumOfWordsInDict(categDict["ask_hn"])
     storySize = Utility.countNumOfWordsInDict(categDict["story"])
-
-    pPoll = pollSize/vocabSize
-    pShow = showSize/vocabSize
-    pAsk = askSize/vocabSize
-    pStory = storySize/vocabSize   
     i = 0
 
     for key in vocabDict.keys():

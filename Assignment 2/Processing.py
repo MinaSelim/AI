@@ -1,4 +1,5 @@
 import Utility
+import numpy
 
 stopFilterFile = open("stop-words.txt","rt", encoding="utf-8")
 stopList = []
@@ -34,7 +35,8 @@ def removeKey(vocabDict,categoryDict,key):
         categoryDict[categkey].pop(key,None)
 
 def baselineFilter(key,vocabDict):
-    return key.find("(") != -1 or key.find(")") != -1 or key.find(".") != -1 or key.find("?") != -1 or key.find("!") != -1 or key.find("“") != -1  or key.find("\"") != -1 or key.find(",") != -1 or key.find("$") != -1 or key.find("‘") != -1
+    return key.find("(") != -1 or key.find(")") != -1 or key.find(".") != -1 or key.find("?") != -1 or key.find("!") != -1 or key.find("“") != -1  or key.find("\"") != -1 \
+    or key.find(",") != -1 or key.find("$") != -1 or key.find("‘") != -1 or key.startswith("'")
 
 def stopFilter(key,vocabDict) :
     return Utility.listContains(stopList,key)
@@ -60,4 +62,54 @@ def removeSmallerOrEqualThanFilter20(key, vocabDict):
 def removeSmallerOrEqualThanFilter(key, vocabDict, value):
     return vocabDict[key] <= value
 
-#def removeTopPercentile(key, vocabDict,)
+
+currentPercentile = 0
+currentCutoff = 0
+
+def removeTopPercentile5(key,vocabDict):
+    global currentPercentile
+    global currentCutoff
+    if currentPercentile != 5:
+        currentPercentile = 5
+        values = vocabDict.values()
+        currentCutoff = numpy.percentile(list(values),95)
+    return removeTopPercentile(key, vocabDict, currentCutoff)
+
+def removeTopPercentile10(key,vocabDict):
+    global currentPercentile
+    global currentCutoff
+    if currentPercentile != 10:
+        currentPercentile = 10
+        values = vocabDict.values()
+        currentCutoff = numpy.percentile(list(values),90)
+    return removeTopPercentile(key, vocabDict, currentCutoff)
+
+def removeTopPercentile15(key,vocabDict):
+    global currentPercentile
+    global currentCutoff
+    if currentPercentile != 15:
+        currentPercentile = 15
+        values = vocabDict.values()
+        currentCutoff = numpy.percentile(list(values),85)
+    return removeTopPercentile(key, vocabDict, currentCutoff)
+
+def removeTopPercentile20(key,vocabDict):
+    global currentPercentile
+    global currentCutoff
+    if currentPercentile != 20:
+        currentPercentile = 20
+        values = vocabDict.values()
+        currentCutoff = numpy.percentile(list(values),80)
+    return removeTopPercentile(key, vocabDict, currentCutoff)
+
+def removeTopPercentile25(key,vocabDict):
+    global currentPercentile
+    global currentCutoff
+    if currentPercentile != 25:
+        currentPercentile = 25
+        values = vocabDict.values()
+        currentCutoff = numpy.percentile(list(values),75)
+    return removeTopPercentile(key, vocabDict, currentCutoff)
+
+def removeTopPercentile(key, vocabDict, cutoff):
+    return vocabDict[key] > cutoff
